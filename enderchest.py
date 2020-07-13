@@ -21,8 +21,9 @@ class ProgressPercentage(object):
             sys.stdout.flush()
 
 parser = argparse.ArgumentParser(description='Uploads files to an S3 bucket')
-parser.add_argument('filename', type=str, help='Name of the file to upload')
+parser.add_argument('filename', type=str, help='Path to the file to upload')
 parser.add_argument('-d', '--delete', help='Delete file if upload is successful', action='store_true')
+parser.add_argument('-n', '--name', type=str, required=True, help='Name to upload this as. Defaults to filename.')
 
 args = parser.parse_args()
 
@@ -45,11 +46,14 @@ except client.meta.client.exceptions.BucketAlreadyExists as err:
     pass
 
 filename = args.filename
+key = filename
+if args.name:
+    key = args.name
 
 try:
     with open(filename, 'rb') as f:
         client.upload_fileobj(
-            f, bucket, filename,
+            f, bucket, key,
             ExtraArgs={'ACL': 'private'},
             Callback=ProgressPercentage(filename))
 
