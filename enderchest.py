@@ -1,6 +1,7 @@
 import argparse
 import boto3
 import os
+import settings
 import sys
 import threading
 
@@ -30,13 +31,13 @@ args = parser.parse_args()
 session = boto3.session.Session()
 
 client = session.client('s3',
-    region_name=os.getenv('REGION_NAME', ''),
-    endpoint_url=os.getenv('ENDPOINT_URL', ''),
-    aws_access_key_id=os.getenv('ACCESS_KEY', ''),
-    aws_secret_access_key=os.getenv('SECRET', ''))
+    region_name=settings.REGION_NAME,
+    endpoint_url=settings.ENDPOINT_URL,
+    aws_access_key_id=settings.ACCESS_KEY,
+    aws_secret_access_key=settings.SECRET)
 
 
-bucket = os.getenv('BUCKET_NAME', '')
+bucket = settings.BUCKET_NAME
 
 try:
     # Create bucket if it doesn't exist
