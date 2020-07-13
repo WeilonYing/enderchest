@@ -2,7 +2,7 @@
 Simple S3 uploader written in Python
 
 # Basic usage
-`python enderchest.py FILENAME -n S3_KEY
+`python enderchest.py FILENAME -n S3_KEY`
 
 # Setup
 
